@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Color Carnival</title>
 
     <link rel="stylesheet" href="style.css">
@@ -63,15 +62,12 @@
         <section class="booth">
 
             <div class="booth-roof">
-
                 <div class="roof-stripe red-stripe"></div>
                 <div class="roof-stripe white-stripe"></div>
                 <div class="roof-stripe blue-stripe"></div>
                 <div class="roof-stripe white-stripe"></div>
                 <div class="roof-stripe red-stripe"></div>
-
             </div>
-
 
             <div class="booth-sign">
                 COLOR CARNIVAL
@@ -80,7 +76,6 @@
 
             <div class="booth-body">
 
-
                 <!-- STATUS -->
 
                 <div class="status-row">
@@ -88,9 +83,7 @@
                     <div>
                         <small>SIMULATION POINTS</small>
 
-                        <strong id="balance">
-                            1000
-                        </strong>
+                        <strong id="balance">1000</strong>
 
                         <em>PTS</em>
                     </div>
@@ -113,11 +106,10 @@
 
                 <!-- THREE BOXES -->
 
-                <div
-                    id="boxArea"
-                    class="boxes normal">
+                <div id="boxArea" class="boxes">
 
                     <div class="prize-box" id="box1">
+
                         <div class="box-top">
                             1
                         </div>
@@ -125,10 +117,12 @@
                         <div class="box-inside">
                             ?
                         </div>
+
                     </div>
 
 
                     <div class="prize-box" id="box2">
+
                         <div class="box-top">
                             2
                         </div>
@@ -136,10 +130,12 @@
                         <div class="box-inside">
                             ?
                         </div>
+
                     </div>
 
 
                     <div class="prize-box" id="box3">
+
                         <div class="box-top">
                             3
                         </div>
@@ -147,6 +143,7 @@
                         <div class="box-inside">
                             ?
                         </div>
+
                     </div>
 
                 </div>
@@ -154,34 +151,25 @@
 
                 <!-- RESULT -->
 
-                <div
-                    id="result"
-                    class="result">
-
+                <div id="result" class="result">
                     READY TO SPIN!
-
                 </div>
 
 
-                <!-- BUTTONS -->
+                <!-- MAIN BUTTONS -->
 
                 <div class="main-buttons">
 
                     <button
                         id="spinButton"
                         class="big-button">
-
                         🎡 SPIN
-
                     </button>
-
 
                     <button
                         id="separateButton"
                         class="small-button">
-
                         ↔ SEPARATE BOXES
-
                     </button>
 
                 </div>
@@ -199,62 +187,50 @@
                     <div class="color-buttons">
 
                         <button
-                            class="color-btn red"
+                            class="color-btn"
                             data-color="red">
-
-                            <span></span>
+                            <span class="red-dot"></span>
                             RED
-
                         </button>
 
 
                         <button
-                            class="color-btn blue"
+                            class="color-btn"
                             data-color="blue">
-
-                            <span></span>
+                            <span class="blue-dot"></span>
                             BLUE
-
                         </button>
 
 
                         <button
-                            class="color-btn green"
+                            class="color-btn"
                             data-color="green">
-
-                            <span></span>
+                            <span class="green-dot"></span>
                             GREEN
-
                         </button>
 
 
                         <button
-                            class="color-btn yellow"
+                            class="color-btn"
                             data-color="yellow">
-
-                            <span></span>
+                            <span class="yellow-dot"></span>
                             YELLOW
-
                         </button>
 
 
                         <button
-                            class="color-btn purple"
+                            class="color-btn"
                             data-color="purple">
-
-                            <span></span>
+                            <span class="purple-dot"></span>
                             PURPLE
-
                         </button>
 
 
                         <button
-                            class="color-btn orange"
+                            class="color-btn"
                             data-color="orange">
-
-                            <span></span>
+                            <span class="orange-dot"></span>
                             ORANGE
-
                         </button>
 
                     </div>
@@ -262,9 +238,7 @@
 
                     <div class="selected">
                         Selected:
-                        <b id="selectedColor">
-                            NONE
-                        </b>
+                        <b id="selectedColor">NONE</b>
                     </div>
 
                 </div>
@@ -283,15 +257,15 @@
             </div>
 
             <p>
-                Educational experiment: choose how much probability
-                the selected color receives in BIAS mode.
+                In bias mode, the selected color can be assigned
+                a different probability for the experiment.
             </p>
 
 
             <div class="probability-control">
 
                 <label for="probabilitySlider">
-                    Selected color probability:
+                    Selected color probability
                 </label>
 
                 <strong>
@@ -322,35 +296,28 @@
                     </div>
 
                     <p>
-                        Actual results compared with theoretical probability.
+                        Results from every box are recorded here.
                     </p>
                 </div>
 
 
                 <div class="rounds">
 
-                    <strong id="rounds">
-                        0
-                    </strong>
+                    <strong id="rounds">0</strong>
 
-                    <span>
-                        ROUNDS
-                    </span>
+                    <span>ROUNDS</span>
 
                 </div>
 
             </div>
 
 
-            <div
-                id="statsGrid"
-                class="stats-grid">
-            </div>
+            <div id="statsGrid" class="stats-grid"></div>
 
         </section>
 
 
-        <!-- MASS TEST -->
+        <!-- RAPID TEST -->
 
         <section class="test-panel">
 
@@ -359,8 +326,7 @@
             </div>
 
             <p>
-                Run many rounds instantly to observe how probability
-                becomes easier to measure over larger samples.
+                Run large numbers of simulated rounds instantly.
             </p>
 
 
@@ -387,12 +353,12 @@
         </section>
 
 
-        <!-- EXPLANATION -->
+        <!-- INFORMATION -->
 
         <section class="info-panel">
 
             <div class="panel-title">
-                🎪 HOW THE EXPERIMENT WORKS
+                🎪 HOW IT WORKS
             </div>
 
 
@@ -400,18 +366,14 @@
 
                 <article>
 
-                    <div class="info-number">
-                        1
-                    </div>
+                    <div class="info-number">1</div>
 
-                    <h3>
-                        Six colors
-                    </h3>
+                    <h3>Six colors</h3>
 
                     <p>
-                        In FAIR mode, each color has a
+                        In FAIR mode, every color has a
                         1/6 probability, approximately
-                        16.67%, in every box.
+                        16.67%, in each box.
                     </p>
 
                 </article>
@@ -419,17 +381,13 @@
 
                 <article>
 
-                    <div class="info-number">
-                        2
-                    </div>
+                    <div class="info-number">2</div>
 
-                    <h3>
-                        Three boxes
-                    </h3>
+                    <h3>Three boxes</h3>
 
                     <p>
-                        Every round produces three independent
-                        color results.
+                        Every round generates three independent
+                        results.
                     </p>
 
                 </article>
@@ -437,18 +395,13 @@
 
                 <article>
 
-                    <div class="info-number">
-                        3
-                    </div>
+                    <div class="info-number">3</div>
 
-                    <h3>
-                        Sample size
-                    </h3>
+                    <h3>Large samples</h3>
 
                     <p>
-                        A few rounds can look unusual. Thousands
-                        of rounds make the underlying probabilities
-                        much easier to observe.
+                        Running thousands of rounds makes
+                        the underlying probability easier to observe.
                     </p>
 
                 </article>
@@ -456,18 +409,13 @@
 
                 <article>
 
-                    <div class="info-number">
-                        4
-                    </div>
+                    <div class="info-number">4</div>
 
-                    <h3>
-                        Bias experiment
-                    </h3>
+                    <h3>Bias experiment</h3>
 
                     <p>
-                        BIAS mode reduces the selected color's
-                        probability and redistributes the remaining
-                        probability among the other colors.
+                        Bias mode changes the probability of the
+                        selected color for educational comparison.
                     </p>
 
                 </article>
@@ -488,4 +436,12 @@
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
         <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+
