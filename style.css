@@ -1,4 +1,4 @@
-```css
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,12 +6,16 @@
 }
 
 :root {
-    --purple: #7d31b7;
-    --deep-purple: #351344;
-    --pink: #e6427c;
-    --gold: #ffd54f;
-    --cream: #fff7ed;
-    --text-dark: #341a3c;
+    --purple: #6d2b91;
+    --deep-purple: #250b30;
+    --pink: #e9447d;
+    --gold: #ffd34f;
+    --cream: #fff8ef;
+    --dark-text: #35183c;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -24,10 +28,10 @@ body {
 
     background:
         radial-gradient(
-            circle at 50% 5%,
-            #702984 0%,
-            #250d31 55%,
-            #10050f 100%
+            circle at 50% 0%,
+            #7b318f 0%,
+            #36123f 42%,
+            #110511 100%
         );
 
     color: white;
@@ -36,31 +40,39 @@ body {
 }
 
 
-/* BACKGROUND */
+/* =========================================================
+   BACKGROUND
+========================================================= */
 
-.sky {
+body::before {
+    content: "";
+
     position: fixed;
+
     inset: 0;
 
     pointer-events: none;
 
-    z-index: -3;
+    z-index: -5;
 
     background:
         radial-gradient(
-            circle at 10% 20%,
-            rgba(255,72,145,.13),
+            circle at 10% 25%,
+            rgba(255,80,150,.13),
             transparent 25%
         ),
+
         radial-gradient(
-            circle at 90% 60%,
-            rgba(100,90,255,.13),
+            circle at 90% 55%,
+            rgba(90,100,255,.13),
             transparent 25%
         );
 }
 
 
-/* CARNIVAL LIGHTS */
+/* =========================================================
+   CARNIVAL LIGHTS
+========================================================= */
 
 .marquee {
     position: fixed;
@@ -77,13 +89,13 @@ body {
 
     align-items: center;
 
+    background:
+        #21092a;
+
     z-index: 100;
 
-    background: #240b2e;
-
     box-shadow:
-        0 0 20px
-        rgba(0,0,0,.4);
+        0 0 20px rgba(0,0,0,.4);
 }
 
 .top-marquee {
@@ -103,26 +115,29 @@ body {
     background: var(--gold);
 
     box-shadow:
-        0 0 12px var(--gold);
+        0 0 11px var(--gold);
 
     animation:
-        blink 1s
-        infinite alternate;
+        lightBlink
+        1s
+        infinite
+        alternate;
 }
 
 .marquee span:nth-child(even) {
     background: #ff5798;
 
     box-shadow:
-        0 0 12px #ff5798;
+        0 0 11px #ff5798;
 
-    animation-delay: .5s;
+    animation-delay:
+        .5s;
 }
 
-@keyframes blink {
+@keyframes lightBlink {
 
     from {
-        opacity: .35;
+        opacity: .3;
     }
 
     to {
@@ -131,34 +146,44 @@ body {
 }
 
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
 header {
     width:
         min(1100px, calc(100% - 30px));
 
-    margin: auto;
+    margin:
+        auto;
 
     padding:
-        35px 0 20px;
+        38px 0 20px;
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    align-items: center;
+    align-items:
+        center;
 }
 
 .logo {
-    font-size: 19px;
+    font-size:
+        19px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: 2px;
+    letter-spacing:
+        2px;
 }
 
 .logo b {
-    color: var(--gold);
+    color:
+        var(--gold);
 }
 
 .subtitle {
@@ -167,21 +192,28 @@ header {
 
     border:
         2px solid
-        rgba(255,213,79,.35);
+        rgba(255,211,79,.35);
 
-    border-radius: 50px;
+    border-radius:
+        50px;
 
-    color: #ffe99f;
+    color:
+        #ffe99d;
 
-    font-size: 9px;
+    font-size:
+        9px;
 
-    font-weight: 900;
+    font-weight:
+        900;
 
-    letter-spacing: 2px;
+    letter-spacing:
+        2px;
 }
 
 
-/* MAIN */
+/* =========================================================
+   MAIN
+========================================================= */
 
 main {
     width:
@@ -195,25 +227,29 @@ main {
 }
 
 
-/* HERO */
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero {
-    text-align: center;
+    text-align:
+        center;
 
     padding:
-        70px 10px
+        65px 10px
         45px;
 }
 
 .ticket {
-    display: inline-block;
+    display:
+        inline-block;
 
     padding:
-        8px 14px;
+        8px 15px;
 
     border:
         2px dashed
-        rgba(255,213,79,.65);
+        rgba(255,211,79,.7);
 
     color:
         var(--gold);
@@ -241,15 +277,16 @@ main {
     line-height:
         .9;
 
-    font-weight:
-        1000;
-
     letter-spacing:
         -4px;
+
+    font-weight:
+        1000;
 }
 
 .hero h1 span {
-    display: block;
+    display:
+        block;
 
     color:
         var(--gold);
@@ -263,7 +300,7 @@ main {
         22px auto 0;
 
     color:
-        #d8b8df;
+        #d9b8df;
 
     font-size:
         14px;
@@ -273,7 +310,9 @@ main {
 }
 
 
-/* BOOTH */
+/* =========================================================
+   BOOTH
+========================================================= */
 
 .booth {
     overflow:
@@ -290,7 +329,7 @@ main {
         var(--cream);
 
     box-shadow:
-        0 25px 80px
+        0 30px 80px
         rgba(0,0,0,.5);
 }
 
@@ -310,12 +349,13 @@ main {
 }
 
 .roof-stripe {
-    height: 100%;
+    height:
+        100%;
 }
 
 .red-stripe {
     background:
-        #e54474;
+        #e44676;
 }
 
 .white-stripe {
@@ -325,7 +365,7 @@ main {
 
 .blue-stripe {
     background:
-        #6142b8;
+        #6241b7;
 }
 
 .booth-sign {
@@ -374,7 +414,9 @@ main {
 }
 
 
-/* STATUS */
+/* =========================================================
+   STATUS
+========================================================= */
 
 .status-row {
     display:
@@ -387,13 +429,14 @@ main {
         center;
 
     color:
-        var(--text-dark);
+        var(--dark-text);
 
     margin-bottom:
         25px;
 }
 
-.status-row small {
+.status-row small,
+.mode-area small {
     display:
         block;
 
@@ -425,14 +468,14 @@ main {
     margin-left:
         5px;
 
-    font-style:
-        normal;
+    color:
+        #805b87;
 
     font-size:
         8px;
 
-    color:
-        #805b87;
+    font-style:
+        normal;
 }
 
 .mode-area {
@@ -477,17 +520,19 @@ main {
 
 .mode-button.bias {
     border-color:
-        #cb376a;
+        #c93469;
 
     background:
         #ffdce7;
 
     color:
-        #aa2957;
+        #a62955;
 }
 
 
-/* BOXES */
+/* =========================================================
+   THREE BOXES
+========================================================= */
 
 .boxes {
     display:
@@ -511,7 +556,7 @@ main {
 
 .boxes.separated {
     gap:
-        clamp(50px, 12vw, 150px);
+        clamp(45px,12vw,150px);
 }
 
 .prize-box {
@@ -519,10 +564,10 @@ main {
         relative;
 
     width:
-        clamp(85px, 20vw, 145px);
+        clamp(85px,20vw,145px);
 
     height:
-        clamp(120px, 25vw, 175px);
+        clamp(120px,25vw,175px);
 
     border:
         5px solid
@@ -534,7 +579,7 @@ main {
     background:
         linear-gradient(
             145deg,
-            #9763bb,
+            #9865bc,
             #51256e
         );
 
@@ -556,14 +601,14 @@ main {
         .3s;
 }
 
-.boxes.separated .prize-box:nth-child(1) {
+.boxes.separated .prize-box:first-child {
     transform:
         perspective(700px)
         rotateX(4deg)
         rotateZ(-2deg);
 }
 
-.boxes.separated .prize-box:nth-child(3) {
+.boxes.separated .prize-box:last-child {
     transform:
         perspective(700px)
         rotateX(4deg)
@@ -574,11 +619,11 @@ main {
     position:
         absolute;
 
-    left:
-        50%;
-
     top:
         -16px;
+
+    left:
+        50%;
 
     transform:
         translateX(-50%);
@@ -637,8 +682,10 @@ main {
 
 .prize-box.spinning {
     animation:
-        boxShake .12s
-        infinite alternate;
+        boxShake
+        .12s
+        infinite
+        alternate;
 }
 
 @keyframes boxShake {
@@ -658,11 +705,12 @@ main {
             rotateY(8deg)
             translateY(2px);
     }
-
 }
 
 
-/* RESULT */
+/* =========================================================
+   RESULT
+========================================================= */
 
 .result {
     min-height:
@@ -675,7 +723,7 @@ main {
         center;
 
     color:
-        #775d7c;
+        #765d7c;
 
     font-size:
         12px;
@@ -689,7 +737,7 @@ main {
 
 .result.win {
     color:
-        #158250;
+        #13804d;
 }
 
 .result.loss {
@@ -698,34 +746,45 @@ main {
 }
 
 
-/* BUTTONS */
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 .main-buttons {
     display:
         flex;
 
-    flex-wrap:
-        wrap;
-
     justify-content:
         center;
 
+    flex-wrap:
+        wrap;
+
     gap:
         10px;
+}
+
+.big-button,
+.small-button {
+    height:
+        55px;
+
+    border-radius:
+        12px;
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
 }
 
 .big-button {
     min-width:
         185px;
 
-    height:
-        55px;
-
     border:
         none;
-
-    border-radius:
-        12px;
 
     background:
         linear-gradient(
@@ -737,14 +796,11 @@ main {
     color:
         white;
 
-    font-weight:
-        1000;
+    font-size:
+        13px;
 
     letter-spacing:
         2px;
-
-    cursor:
-        pointer;
 
     box-shadow:
         0 7px 0
@@ -762,10 +818,6 @@ main {
 .big-button:active {
     transform:
         translateY(3px);
-
-    box-shadow:
-        0 3px 0
-        #921e4d;
 }
 
 .big-button:disabled {
@@ -780,15 +832,9 @@ main {
     min-width:
         175px;
 
-    height:
-        55px;
-
     border:
         3px solid
         #84651f;
-
-    border-radius:
-        12px;
 
     background:
         #f1d365;
@@ -796,18 +842,14 @@ main {
     color:
         #5b3b12;
 
-    font-weight:
-        1000;
-
     font-size:
         10px;
-
-    cursor:
-        pointer;
 }
 
 
-/* COLOR BUTTONS */
+/* =========================================================
+   MULTIPLE COLOR SELECTION
+========================================================= */
 
 .choice-area {
     margin-top:
@@ -896,6 +938,10 @@ main {
 
     color:
         #4e205a;
+
+    box-shadow:
+        0 0 12px
+        rgba(100,44,146,.18);
 }
 
 .color-btn span {
@@ -916,30 +962,39 @@ main {
 }
 
 .red-dot {
-    background:#ff416c;
+    background:
+        #ff416c;
 }
 
 .blue-dot {
-    background:#4788ff;
+    background:
+        #4788ff;
 }
 
 .green-dot {
-    background:#30ca82;
+    background:
+        #30ca82;
 }
 
 .yellow-dot {
-    background:#f2cc3c;
+    background:
+        #f2cc3c;
 }
 
 .purple-dot {
-    background:#a050db;
+    background:
+        #a050db;
 }
 
 .orange-dot {
-    background:#f18038;
+    background:
+        #f18038;
 }
 
 .selected {
+    min-height:
+        16px;
+
     margin-top:
         15px;
 
@@ -959,7 +1014,9 @@ main {
 }
 
 
-/* PANELS */
+/* =========================================================
+   PANELS
+========================================================= */
 
 .control-panel,
 .stats-panel,
@@ -979,7 +1036,7 @@ main {
         22px;
 
     background:
-        rgba(33,14,42,.83);
+        rgba(33,14,42,.85);
 }
 
 .panel-title {
@@ -1014,7 +1071,9 @@ main {
 }
 
 
-/* SLIDER */
+/* =========================================================
+   PROBABILITY SLIDER
+========================================================= */
 
 .probability-control {
     display:
@@ -1026,11 +1085,11 @@ main {
     gap:
         12px;
 
-    margin-top:
-        20px;
-
     align-items:
         center;
+
+    margin-top:
+        20px;
 }
 
 .probability-control label {
@@ -1058,10 +1117,15 @@ main {
 
     accent-color:
         #eb4c96;
+
+    cursor:
+        pointer;
 }
 
 
-/* STATISTICS */
+/* =========================================================
+   STATISTICS
+========================================================= */
 
 .stats-header {
     display:
@@ -1186,27 +1250,33 @@ main {
 }
 
 .stat:nth-child(1) .fill {
-    background:#ff416c;
+    background:
+        #ff416c;
 }
 
 .stat:nth-child(2) .fill {
-    background:#4788ff;
+    background:
+        #4788ff;
 }
 
 .stat:nth-child(3) .fill {
-    background:#30ca82;
+    background:
+        #30ca82;
 }
 
 .stat:nth-child(4) .fill {
-    background:#f2cc3c;
+    background:
+        #f2cc3c;
 }
 
 .stat:nth-child(5) .fill {
-    background:#a050db;
+    background:
+        #a050db;
 }
 
 .stat:nth-child(6) .fill {
-    background:#f18038;
+    background:
+        #f18038;
 }
 
 .theory {
@@ -1221,7 +1291,9 @@ main {
 }
 
 
-/* TEST */
+/* =========================================================
+   RAPID TEST
+========================================================= */
 
 .test-buttons {
     display:
@@ -1275,16 +1347,10 @@ main {
         var(--gold);
 }
 
-.test-buttons button:last-child {
-    border-color:
-        #a8325f;
 
-    color:
-        #ff9dbd;
-}
-
-
-/* INFORMATION */
+/* =========================================================
+   INFO
+========================================================= */
 
 .info-grid {
     display:
@@ -1353,7 +1419,9 @@ main {
 }
 
 
-/* FOOTER */
+/* =========================================================
+   FOOTER
+========================================================= */
 
 footer {
     padding:
@@ -1374,13 +1442,20 @@ footer {
 }
 
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width:700px) {
 
     .subtitle {
         display:
             none;
+    }
+
+    header {
+        padding-top:
+            32px;
     }
 
     .hero {
@@ -1411,7 +1486,7 @@ footer {
 
     .boxes {
         gap:
-            9px;
+            8px;
     }
 
     .boxes.separated {
@@ -1431,4 +1506,4 @@ footer {
     }
 
 }
-```
+
