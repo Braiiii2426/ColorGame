@@ -1,4 +1,4 @@
-```javascript
+
 "use strict";
 
 /*
@@ -888,4 +888,4 @@ function delay(ms) {
 /* INITIALIZE */
 
 resetSimulation();
-```
+
