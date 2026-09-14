@@ -1,4 +1,4 @@
-
+```javascript
 "use strict";
 
 /*
@@ -9,16 +9,12 @@
  6 COLORS
  3 BOXES
  FAIR MODE
- SELECTED-COLOR BIAS MODE
-
- No real money is involved.
+ BIAS MODE
 =========================================================
 */
 
 
-/* -----------------------------
-   COLORS
------------------------------ */
+/* COLORS */
 
 const COLORS = [
     "red",
@@ -30,7 +26,7 @@ const COLORS = [
 ];
 
 
-const COLOR_NAMES = {
+const NAMES = {
     red: "RED",
     blue: "BLUE",
     green: "GREEN",
@@ -40,27 +36,19 @@ const COLOR_NAMES = {
 };
 
 
-/* -----------------------------
-   VARIABLES
------------------------------ */
+/* VARIABLES */
 
 let selectedColor = null;
-
 let biasedMode = false;
-
 let spinning = false;
 
 let rounds = 0;
-
 let balance = 1000;
 
 
 /*
-Counts how many times each
-color has appeared.
-
-Every round creates
-THREE results.
+    Number of times each color
+    appeared in all three boxes.
 */
 
 const counts = {
@@ -73,18 +61,16 @@ const counts = {
 };
 
 
-/* -----------------------------
-   DOM ELEMENTS
------------------------------ */
-
-const boxArea =
-    document.getElementById("boxArea");
+/* DOM */
 
 const boxes = [
     document.getElementById("box1"),
     document.getElementById("box2"),
     document.getElementById("box3")
 ];
+
+const boxArea =
+    document.getElementById("boxArea");
 
 const spinButton =
     document.getElementById("spinButton");
@@ -113,16 +99,67 @@ const slider =
 const probabilityValue =
     document.getElementById("probabilityValue");
 
+const statsGrid =
+    document.getElementById("statsGrid");
 
-/* -----------------------------
-   PROBABILITY
------------------------------ */
+
+/* CREATE STATISTICS */
+
+function createStats() {
+
+    statsGrid.innerHTML = "";
+
+    COLORS.forEach(color => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "stat";
+
+        card.innerHTML = `
+            <div class="stat-top">
+
+                <span class="stat-name">
+                    ${NAMES[color]}
+                </span>
+
+                <span
+                    class="stat-percent"
+                    id="${color}Percent">
+                    0.00%
+                </span>
+
+            </div>
+
+            <div class="bar">
+                <div
+                    class="fill"
+                    id="${color}Fill">
+                </div>
+            </div>
+
+            <div
+                class="theory"
+                id="${color}Theory">
+                Theoretical: 16.67%
+            </div>
+        `;
+
+        statsGrid.appendChild(card);
+
+    });
+}
+
+createStats();
+
+
+/* GET PROBABILITIES */
 
 function getProbabilities() {
 
     /*
-    FAIR:
-    Every color = 16.6667%
+        FAIR MODE
+        6 colors = 16.666...% each
     */
 
     if (!biasedMode || !selectedColor) {
@@ -139,13 +176,14 @@ function getProbabilities() {
 
 
     /*
-    BIAS MODE
+        BIAS MODE
 
-    Selected color gets the
-    probability chosen by slider.
+        Selected color receives
+        the probability from slider.
 
-    The remainder is split
-    between the other 5 colors.
+        The remaining probability
+        is divided between the
+        other five colors.
     */
 
     const selectedPercent =
@@ -154,12 +192,11 @@ function getProbabilities() {
     const selectedProbability =
         selectedPercent / 100;
 
-    const remainingProbability =
+    const remaining =
         1 - selectedProbability;
 
     const otherProbability =
-        remainingProbability / 5;
-
+        remaining / 5;
 
     const probabilities = {};
 
@@ -175,6 +212,7 @@ function getProbabilities() {
 
             probabilities[color] =
                 otherProbability;
+
         }
 
     });
@@ -184,9 +222,7 @@ function getProbabilities() {
 }
 
 
-/* -----------------------------
-   RANDOM COLOR
------------------------------ */
+/* RANDOM COLOR */
 
 function randomColor() {
 
@@ -196,112 +232,105 @@ function randomColor() {
     const random =
         Math.random();
 
-    let cumulative = 0;
+    let total = 0;
 
 
     for (const color of COLORS) {
 
-        cumulative +=
+        total +=
             probabilities[color];
 
-        if (random < cumulative) {
+        if (random < total) {
+
             return color;
+
         }
 
     }
 
 
-    /*
-    Safety fallback.
-    */
-
     return COLORS[COLORS.length - 1];
 }
 
 
-/* -----------------------------
-   COLOR VISUALS
------------------------------ */
+/* COLOR VISUALS */
 
-const COLOR_STYLES = {
+const colorStyles = {
 
     red: {
         background:
             "radial-gradient(circle at 35% 30%, #ff91a9, #df315d 60%, #7d1735)",
         shadow:
-            "0 18px 35px rgba(223,49,93,.35), inset 0 4px 0 rgba(255,255,255,.2)"
+            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(223,49,93,.35)"
     },
 
     blue: {
         background:
             "radial-gradient(circle at 35% 30%, #93bdff, #4083ed 60%, #174c98)",
         shadow:
-            "0 18px 35px rgba(64,131,237,.35), inset 0 4px 0 rgba(255,255,255,.2)"
+            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(64,131,237,.35)"
     },
 
     green: {
         background:
             "radial-gradient(circle at 35% 30%, #91efbd, #30c880 60%, #147143)",
         shadow:
-            "0 18px 35px rgba(48,200,128,.35), inset 0 4px 0 rgba(255,255,255,.2)"
+            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(48,200,128,.35)"
     },
 
     yellow: {
         background:
             "radial-gradient(circle at 35% 30%, #fff09a, #f3c936 60%, #aa7900)",
         shadow:
-            "0 18px 35px rgba(243,201,54,.35), inset 0 4px 0 rgba(255,255,255,.2)"
+            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(243,201,54,.35)"
     },
 
     purple: {
         background:
             "radial-gradient(circle at 35% 30%, #dbadff, #a051d7 60%, #5d237d)",
         shadow:
-            "0 18px 35px rgba(160,81,215,.35), inset 0 4px 0 rgba(255,255,255,.2)"
+            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(160,81,215,.35)"
     },
 
     orange: {
         background:
             "radial-gradient(circle at 35% 30%, #ffc08e, #f18038 60%, #a8400c)",
         shadow:
-            "0 18px 35px rgba(241,128,56,.35), inset 0 4px 0 rgba(255,255,255,.2)"
+            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(241,128,56,.35)"
     }
 
 };
 
 
-/* -----------------------------
-   SHOW BOX COLOR
------------------------------ */
+/* SHOW RESULT IN BOX */
 
 function showBox(box, color) {
 
-    const style =
-        COLOR_STYLES[color];
-
     box.style.background =
-        style.background;
+        colorStyles[color].background;
 
     box.style.boxShadow =
-        style.shadow;
+        colorStyles[color].shadow;
+
+
+    const number =
+        box.id.replace("box", "");
 
 
     box.innerHTML = `
         <div class="box-top">
-            ${box.id.replace("box", "")}
+            ${number}
         </div>
 
         <div class="box-inside">
-            ${COLOR_NAMES[color][0]}
+            ${NAMES[color][0]}
         </div>
     `;
 
 }
 
 
-/* -----------------------------
-   RESET BOX
------------------------------ */
+/* RESET BOX */
 
 function resetBox(box) {
 
@@ -309,11 +338,18 @@ function resetBox(box) {
         "linear-gradient(145deg,#9562b9,#50246d)";
 
     box.style.boxShadow =
-        "inset 0 5px 0 rgba(255,255,255,.2), 0 10px 0 #321737, 0 20px 30px rgba(0,0,0,.3)";
+        "inset 0 5px 0 rgba(255,255,255,.2),
+         0 10px 0 #321737,
+         0 20px 30px rgba(0,0,0,.3)";
+
+
+    const number =
+        box.id.replace("box", "");
+
 
     box.innerHTML = `
         <div class="box-top">
-            ${box.id.replace("box", "")}
+            ${number}
         </div>
 
         <div class="box-inside">
@@ -324,9 +360,7 @@ function resetBox(box) {
 }
 
 
-/* -----------------------------
-   SPIN
------------------------------ */
+/* SPIN */
 
 spinButton.addEventListener(
     "click",
@@ -351,12 +385,8 @@ async function spin() {
         "result";
 
     result.textContent =
-        "THE WHEEL IS SPINNING...";
+        "SPINNING...";
 
-
-    /*
-    Reset appearance first.
-    */
 
     boxes.forEach(box => {
 
@@ -370,7 +400,7 @@ async function spin() {
 
 
     /*
-    Generate results.
+        Generate three independent results.
     */
 
     const results = [
@@ -380,12 +410,12 @@ async function spin() {
     ];
 
 
+    await delay(800);
+
+
     /*
-    Animation.
+        Reveal boxes one by one.
     */
-
-    await delay(700);
-
 
     for (
         let i = 0;
@@ -407,13 +437,7 @@ async function spin() {
     }
 
 
-    /*
-    Process result.
-    */
-
-    processResults(
-        results
-    );
+    processResults(results);
 
 
     spinning = false;
@@ -423,9 +447,7 @@ async function spin() {
 }
 
 
-/* -----------------------------
-   PROCESS RESULT
------------------------------ */
+/* PROCESS RESULT */
 
 function processResults(results) {
 
@@ -437,7 +459,7 @@ function processResults(results) {
 
 
     /*
-    Count every box result.
+        Count each box result.
     */
 
     results.forEach(color => {
@@ -448,10 +470,8 @@ function processResults(results) {
 
 
     /*
-    Educational points.
-
-    +10 per matching selected color
-    -5 when selected color doesn't appear
+        Educational point system.
+        These are NOT real currency.
     */
 
     if (selectedColor) {
@@ -470,21 +490,25 @@ function processResults(results) {
 
             balance += points;
 
+
             result.className =
                 "result win";
 
+
             result.textContent =
-                `${COLOR_NAMES[selectedColor]} APPEARED ${matches} TIME${matches === 1 ? "" : "S"} • +${points} PTS`;
+                `${NAMES[selectedColor]} APPEARED ${matches} TIME${matches === 1 ? "" : "S"} • +${points} PTS`;
 
         } else {
 
             balance -= 5;
 
+
             result.className =
                 "result loss";
 
+
             result.textContent =
-                `${COLOR_NAMES[selectedColor]} DID NOT APPEAR • -5 PTS`;
+                `${NAMES[selectedColor]} DID NOT APPEAR • -5 PTS`;
 
         }
 
@@ -494,7 +518,7 @@ function processResults(results) {
             results
                 .map(
                     color =>
-                        COLOR_NAMES[color]
+                        NAMES[color]
                 )
                 .join(" • ");
 
@@ -509,9 +533,7 @@ function processResults(results) {
 }
 
 
-/* -----------------------------
-   SELECT COLOR
------------------------------ */
+/* SELECT COLOR */
 
 document
     .querySelectorAll(".color-btn")
@@ -540,19 +562,18 @@ document
 
 
                 selectedColorElement.textContent =
-                    COLOR_NAMES[selectedColor];
+                    NAMES[selectedColor];
 
 
                 updateStats();
+
             }
         );
 
     });
 
 
-/* -----------------------------
-   MODE SWITCH
------------------------------ */
+/* MODE */
 
 modeButton.addEventListener(
     "click",
@@ -572,7 +593,7 @@ modeButton.addEventListener(
             );
 
             result.textContent =
-                "BIAS MODE";
+                "BIAS MODE ENABLED";
 
         } else {
 
@@ -584,19 +605,18 @@ modeButton.addEventListener(
             );
 
             result.textContent =
-                "FAIR MODE";
+                "FAIR MODE ENABLED";
 
         }
 
 
         updateStats();
+
     }
 );
 
 
-/* -----------------------------
-   SLIDER
------------------------------ */
+/* SLIDER */
 
 slider.addEventListener(
     "input",
@@ -605,15 +625,13 @@ slider.addEventListener(
         probabilityValue.textContent =
             slider.value;
 
-
         updateStats();
+
     }
 );
 
 
-/* -----------------------------
-   SEPARATE BOXES
------------------------------ */
+/* SEPARATE BOXES */
 
 separateButton.addEventListener(
     "click",
@@ -644,74 +662,7 @@ separateButton.addEventListener(
 );
 
 
-/* -----------------------------
-   STATISTICS
------------------------------ */
-
-function createStats() {
-
-    const grid =
-        document.getElementById(
-            "statsGrid"
-        );
-
-
-    grid.innerHTML = "";
-
-
-    COLORS.forEach(color => {
-
-        const card =
-            document.createElement(
-                "div"
-            );
-
-
-        card.className =
-            "stat";
-
-
-        card.innerHTML = `
-            <div class="stat-top">
-
-                <span class="stat-name">
-                    ${COLOR_NAMES[color]}
-                </span>
-
-                <span
-                    class="stat-percent"
-                    id="${color}Percent">
-                    0.00%
-                </span>
-
-            </div>
-
-            <div class="bar">
-
-                <div
-                    class="fill"
-                    id="${color}Fill">
-                </div>
-
-            </div>
-
-            <div
-                class="theory"
-                id="${color}Theory">
-                Theoretical: 16.67%
-            </div>
-        `;
-
-
-        grid.appendChild(card);
-
-    });
-
-}
-
-
-createStats();
-
+/* UPDATE STATISTICS */
 
 function updateStats() {
 
@@ -732,9 +683,10 @@ function updateStats() {
         if (totalResults > 0) {
 
             actual =
-                counts[color] /
-                totalResults *
-                100;
+                (
+                    counts[color] /
+                    totalResults
+                ) * 100;
 
         }
 
@@ -773,9 +725,7 @@ function updateStats() {
 }
 
 
-/* -----------------------------
-   MASS SIMULATION
------------------------------ */
+/* MASS SIMULATION */
 
 function runRounds(amount) {
 
@@ -785,19 +735,10 @@ function runRounds(amount) {
         i++
     ) {
 
-        const first =
-            randomColor();
+        counts[randomColor()]++;
+        counts[randomColor()]++;
+        counts[randomColor()]++;
 
-        const second =
-            randomColor();
-
-        const third =
-            randomColor();
-
-
-        counts[first]++;
-        counts[second]++;
-        counts[third]++;
     }
 
 
@@ -808,22 +749,18 @@ function runRounds(amount) {
         rounds.toLocaleString();
 
 
-    updateStats();
-
-
     result.className =
         "result";
-
 
     result.textContent =
         `${amount.toLocaleString()} ROUNDS SIMULATED`;
 
+
+    updateStats();
 }
 
 
-/* -----------------------------
-   TEST BUTTONS
------------------------------ */
+/* MASS BUTTONS */
 
 document
     .getElementById("run100")
@@ -849,9 +786,7 @@ document
     );
 
 
-/* -----------------------------
-   RESET
------------------------------ */
+/* RESET */
 
 document
     .getElementById("reset")
@@ -882,8 +817,8 @@ function resetSimulation() {
     document
         .querySelectorAll(".color-btn")
         .forEach(
-            btn =>
-                btn.classList
+            button =>
+                button.classList
                     .remove("active")
         );
 
@@ -907,10 +842,6 @@ function resetSimulation() {
 
     roundsElement.textContent =
         "0";
-
-
-    probabilityValue.textContent =
-        slider.value;
 
 
     result.className =
@@ -940,9 +871,7 @@ function resetSimulation() {
 }
 
 
-/* -----------------------------
-   DELAY
------------------------------ */
+/* DELAY */
 
 function delay(ms) {
 
@@ -953,6 +882,10 @@ function delay(ms) {
                 ms
             )
     );
-
 }
 
+
+/* INITIALIZE */
+
+resetSimulation();
+```
