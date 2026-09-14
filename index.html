@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ColorLab — Probability Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="background">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="grid"></div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <span class="logo-dot"></span>
+      COLOR<span>LAB</span>
+    </div>
+
+    <div class="badge">
+      EDUCATIONAL SIMULATOR
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <p class="eyebrow">PROBABILITY EXPERIMENT</p>
+      <h1>Three Boxes.<br><span>Six Colors.</span></h1>
+      <p class="description">
+        Explore how random outcomes work using a simulated three-box
+        color system. No real money is involved.
+      </p>
+    </section>
+
+    <section class="game-card">
+
+      <div class="game-top">
+        <div>
+          <p class="label">SIMULATION BALANCE</p>
+          <div class="balance">
+            <span id="balance">1000</span>
+            <small>PTS</small>
+          </div>
+        </div>
+
+        <div class="mode-control">
+          <span>MODE</span>
+          <button id="modeButton" class="mode fair">
+            FAIR
+          </button>
+        </div>
+      </div>
+
+      <div class="machine">
+
+        <div class="machine-lights">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+
+        <div class="boxes">
+
+          <div class="box-wrapper">
+            <div class="box" id="box1">
+              <div class="box-face">
+                <span>?</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-wrapper">
+            <div class="box" id="box2">
+              <div class="box-face">
+                <span>?</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-wrapper">
+            <div class="box" id="box3">
+              <div class="box-face">
+                <span>?</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="result" id="result">
+          READY
+        </div>
+
+        <button id="spinButton" class="spin-button">
+          <span>SPIN</span>
+          <div class="button-glow"></div>
+        </button>
+
+      </div>
+
+      <div class="prediction">
+
+        <p class="label">CHOOSE A COLOR FOR THE EXPERIMENT</p>
+
+        <div class="colors">
+
+          <button class="color-choice red" data-color="red">
+            <span></span>
+            RED
+          </button>
+
+          <button class="color-choice blue" data-color="blue">
+            <span></span>
+            BLUE
+          </button>
+
+          <button class="color-choice green" data-color="green">
+            <span></span>
+            GREEN
+          </button>
+
+          <button class="color-choice yellow" data-color="yellow">
+            <span></span>
+            YELLOW
+          </button>
+
+          <button class="color-choice purple" data-color="purple">
+            <span></span>
+            PURPLE
+          </button>
+
+          <button class="color-choice orange" data-color="orange">
+            <span></span>
+            ORANGE
+          </button>
+
+        </div>
+
+        <p class="selected-text">
+          Selected:
+          <strong id="selectedColor">NONE</strong>
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section class="stats">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">LIVE DATA</p>
+          <h2>Probability Monitor</h2>
+        </div>
+
+        <div class="rounds">
+          <span id="rounds">0</span>
+          <small>ROUNDS</small>
+        </div>
+      </div>
+
+      <div class="stat-grid" id="statGrid"></div>
+
+    </section>
+
+
+    <section class="explanation">
+
+      <div class="explanation-header">
+        <p class="eyebrow">LEARN</p>
+        <h2>What's happening?</h2>
+      </div>
+
+      <div class="info-grid">
+
+        <article>
+          <div class="number">01</div>
+          <h3>Six possible colors</h3>
+          <p>
+            Each box has six possible outcomes. If every color has
+            equal probability, each color has a 1/6 chance, or about
+            16.67%, of appearing in one box.
+          </p>
+        </article>
+
+        <article>
+          <div class="number">02</div>
+          <h3>Three independent boxes</h3>
+          <p>
+            Three boxes create 6 × 6 × 6 = 216 possible ordered
+            combinations when every box is independent.
+          </p>
+        </article>
+
+        <article>
+          <div class="number">03</div>
+          <h3>Random doesn't mean equal results</h3>
+          <p>
+            Over a small number of rounds, results can look very
+            uneven. With many rounds, the percentages generally move
+            closer to the theoretical probabilities.
+          </p>
+        </article>
+
+        <article>
+          <div class="number">04</div>
+          <h3>Fair vs. biased simulation</h3>
+          <p>
+            FAIR mode gives all six colors equal probability.
+            BIASED mode is an educational demonstration showing how
+            changing probabilities affects long-term results.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <section class="warning">
+
+      <div class="warning-icon">!</div>
+
+      <div>
+        <h3>Educational use only</h3>
+        <p>
+          This simulator uses fictional points and is designed to
+          demonstrate probability, randomness, and statistical bias.
+          It is not a gambling platform and does not involve real
+          money.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>COLORLAB © 2026 — Probability & Randomness Demonstration</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
