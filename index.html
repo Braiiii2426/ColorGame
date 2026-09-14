@@ -1,447 +1,1756 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Carnival</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Carnival</title>
 
-    <link rel="stylesheet" href="style.css">
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --purple: #69258c;
+    --dark-purple: #210b2b;
+    --pink: #e9427c;
+    --gold: #ffd34f;
+    --cream: #fff8ee;
+}
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #7c3294 0%,
+            #35123f 45%,
+            #110511 100%
+        );
+
+    color: white;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: -10;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255,80,150,.14),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 85% 55%,
+            rgba(90,100,255,.13),
+            transparent 25%
+        );
+}
+
+
+/* =========================================================
+   CARNIVAL LIGHTS
+========================================================= */
+
+.marquee {
+    position: fixed;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 18px;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+    background:
+        #220a2b;
+
+    z-index: 100;
+
+    box-shadow:
+        0 0 20px rgba(0,0,0,.4);
+}
+
+.top-marquee {
+    top: 0;
+}
+
+.bottom-marquee {
+    bottom: 0;
+}
+
+.marquee span {
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background:
+        var(--gold);
+
+    box-shadow:
+        0 0 12px var(--gold);
+
+    animation:
+        blink 1s infinite alternate;
+}
+
+.marquee span:nth-child(even) {
+    background: #ff5798;
+
+    box-shadow:
+        0 0 12px #ff5798;
+
+    animation-delay:
+        .5s;
+}
+
+@keyframes blink {
+
+    from {
+        opacity: .3;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    width:
+        min(1100px, calc(100% - 30px));
+
+    margin: auto;
+
+    padding:
+        38px 0 20px;
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+}
+
+.logo {
+    font-size:
+        19px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        2px;
+}
+
+.logo b {
+    color:
+        var(--gold);
+}
+
+.subtitle {
+    padding:
+        8px 12px;
+
+    border:
+        2px solid
+        rgba(255,211,79,.4);
+
+    border-radius:
+        50px;
+
+    color:
+        #ffe99c;
+
+    font-size:
+        9px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        2px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width:
+        min(1050px, calc(100% - 24px));
+
+    margin:
+        auto;
+
+    padding-bottom:
+        80px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    text-align:
+        center;
+
+    padding:
+        65px 10px
+        45px;
+}
+
+.ticket {
+    display:
+        inline-block;
+
+    padding:
+        8px 15px;
+
+    border:
+        2px dashed
+        rgba(255,211,79,.7);
+
+    color:
+        var(--gold);
+
+    font-size:
+        9px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        2px;
+
+    transform:
+        rotate(-1deg);
+}
+
+.hero h1 {
+    margin-top:
+        20px;
+
+    font-size:
+        clamp(45px, 8vw, 82px);
+
+    line-height:
+        .9;
+
+    letter-spacing:
+        -4px;
+
+    font-weight:
+        1000;
+}
+
+.hero h1 span {
+    display:
+        block;
+
+    color:
+        var(--gold);
+}
+
+.hero p {
+    max-width:
+        620px;
+
+    margin:
+        22px auto 0;
+
+    color:
+        #d9b8df;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================================
+   BOOTH
+========================================================= */
+
+.booth {
+    overflow:
+        hidden;
+
+    border:
+        5px solid
+        #40184e;
+
+    border-radius:
+        28px;
+
+    background:
+        var(--cream);
+
+    box-shadow:
+        0 30px 80px
+        rgba(0,0,0,.5);
+}
+
+.booth-roof {
+    height:
+        55px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(5,1fr);
+
+    border-bottom:
+        5px solid
+        #40184e;
+}
+
+.roof-stripe {
+    height:
+        100%;
+}
+
+.red-stripe {
+    background:
+        #e44676;
+}
+
+.white-stripe {
+    background:
+        #fff8ee;
+}
+
+.blue-stripe {
+    background:
+        #6241b7;
+}
+
+.booth-sign {
+    width:
+        min(470px,85%);
+
+    margin:
+        0 auto;
+
+    padding:
+        14px;
+
+    background:
+        #f5d448;
+
+    border:
+        5px solid
+        #4b2254;
+
+    border-top:
+        0;
+
+    color:
+        #4b2254;
+
+    text-align:
+        center;
+
+    font-size:
+        20px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        3px;
+
+    box-shadow:
+        0 7px 0
+        rgba(74,32,84,.2);
+}
+
+.booth-body {
+    padding:
+        28px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-row {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    color:
+        #341a3c;
+
+    margin-bottom:
+        25px;
+}
+
+.status-row small,
+.mode-area small {
+    display:
+        block;
+
+    margin-bottom:
+        5px;
+
+    color:
+        #76557d;
+
+    font-size:
+        8px;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        2px;
+}
+
+.status-row strong {
+    font-size:
+        29px;
+
+    font-weight:
+        1000;
+}
+
+.status-row em {
+    margin-left:
+        5px;
+
+    color:
+        #805b87;
+
+    font-size:
+        8px;
+
+    font-style:
+        normal;
+}
+
+.mode-area {
+    text-align:
+        right;
+}
+
+.mode-button {
+    padding:
+        10px 15px;
+
+    border:
+        3px solid
+        #69309b;
+
+    border-radius:
+        9px;
+
+    background:
+        #e8d8ef;
+
+    color:
+        #60288d;
+
+    font-size:
+        9px;
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s;
+}
+
+.mode-button:hover {
+    transform:
+        translateY(-2px);
+}
+
+.mode-button.bias {
+    border-color:
+        #c93469;
+
+    background:
+        #ffdce7;
+
+    color:
+        #a62955;
+}
+
+
+/* =========================================================
+   THREE BOXES
+========================================================= */
+
+.boxes {
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    min-height:
+        220px;
+
+    gap:
+        22px;
+
+    transition:
+        gap .45s ease;
+}
+
+.boxes.separated {
+    gap:
+        clamp(
+            45px,
+            12vw,
+            150px
+        );
+}
+
+.prize-box {
+    position:
+        relative;
+
+    width:
+        clamp(
+            85px,
+            20vw,
+            145px
+        );
+
+    height:
+        clamp(
+            120px,
+            25vw,
+            175px
+        );
+
+    border:
+        5px solid
+        #46204e;
+
+    border-radius:
+        14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #9865bc,
+            #51256e
+        );
+
+    box-shadow:
+        inset 0 5px 0
+        rgba(255,255,255,.2),
+
+        0 10px 0
+        #311637,
+
+        0 20px 30px
+        rgba(0,0,0,.3);
+
+    transform:
+        perspective(700px)
+        rotateX(4deg);
+
+    transition:
+        transform .3s,
+        background .3s,
+        box-shadow .3s;
+}
+
+.boxes.separated .prize-box:first-child {
+    transform:
+        perspective(700px)
+        rotateX(4deg)
+        rotateZ(-2deg);
+}
+
+.boxes.separated .prize-box:last-child {
+    transform:
+        perspective(700px)
+        rotateX(4deg)
+        rotateZ(2deg);
+}
+
+.box-top {
+    position:
+        absolute;
+
+    top:
+        -16px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        47px;
+
+    height:
+        34px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        4px solid
+        #422047;
+
+    border-radius:
+        8px 8px 4px 4px;
+
+    background:
+        var(--gold);
+
+    color:
+        #4d2455;
+
+    font-weight:
+        1000;
+}
+
+.box-inside {
+    width:
+        100%;
+
+    height:
+        100%;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    color:
+        #ead8ef;
+
+    font-size:
+        46px;
+
+    font-weight:
+        1000;
+}
+
+.prize-box.spinning {
+    animation:
+        shake .12s
+        infinite
+        alternate;
+}
+
+@keyframes shake {
+
+    from {
+        transform:
+            perspective(700px)
+            rotateX(8deg)
+            rotateY(-8deg)
+            translateY(-2px);
+    }
+
+    to {
+        transform:
+            perspective(700px)
+            rotateX(-8deg)
+            rotateY(8deg)
+            translateY(2px);
+    }
+
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result {
+    min-height:
+        20px;
+
+    margin:
+        25px 0;
+
+    text-align:
+        center;
+
+    color:
+        #765d7c;
+
+    font-size:
+        12px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        1.5px;
+}
+
+.result.win {
+    color:
+        #13804d;
+}
+
+.result.loss {
+    color:
+        #c8325f;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.main-buttons {
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        10px;
+}
+
+.big-button,
+.small-button {
+    height:
+        55px;
+
+    border-radius:
+        12px;
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s;
+}
+
+.big-button {
+    min-width:
+        185px;
+
+    border:
+        none;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ff659d,
+            #d72e70
+        );
+
+    color:
+        white;
+
+    font-size:
+        13px;
+
+    letter-spacing:
+        2px;
+
+    box-shadow:
+        0 7px 0
+        #921e4d;
+}
+
+.big-button:hover {
+    transform:
+        translateY(-2px);
+}
+
+.big-button:active {
+    transform:
+        translateY(3px);
+
+    box-shadow:
+        0 3px 0
+        #921e4d;
+}
+
+.big-button:disabled {
+    opacity:
+        .55;
+
+    cursor:
+        not-allowed;
+}
+
+.small-button {
+    min-width:
+        175px;
+
+    border:
+        3px solid
+        #84651f;
+
+    background:
+        #f1d365;
+
+    color:
+        #5b3b12;
+
+    font-size:
+        10px;
+}
+
+
+/* =========================================================
+   MULTIPLE COLOR SELECTION
+========================================================= */
+
+.choice-area {
+    margin-top:
+        30px;
+
+    padding-top:
+        25px;
+
+    border-top:
+        2px dashed
+        rgba(80,35,89,.18);
+}
+
+.choice-title {
+    text-align:
+        center;
+
+    color:
+        #75577b;
+
+    font-size:
+        9px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        2px;
+
+    margin-bottom:
+        12px;
+}
+
+.color-buttons {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(6, 1fr);
+
+    gap:
+        8px;
+}
+
+.color-btn {
+    padding:
+        12px 3px;
+
+    border:
+        3px solid
+        transparent;
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(107,62,122,.06);
+
+    color:
+        #745679;
+
+    font-size:
+        9px;
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s;
+}
+
+.color-btn:hover {
+    transform:
+        translateY(-2px);
+}
+
+.color-btn.active {
+    border-color:
+        #642c92;
+
+    background:
+        #eadcf1;
+
+    color:
+        #4e205a;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(100,44,146,.1);
+}
+
+.color-btn span {
+    display:
+        block;
+
+    width:
+        18px;
+
+    height:
+        18px;
+
+    margin:
+        0 auto 7px;
+
+    border-radius:
+        50%;
+}
+
+.red-dot {
+    background:
+        #ff416c;
+}
+
+.blue-dot {
+    background:
+        #4788ff;
+}
+
+.green-dot {
+    background:
+        #30ca82;
+}
+
+.yellow-dot {
+    background:
+        #f2cc3c;
+}
+
+.purple-dot {
+    background:
+        #a050db;
+}
+
+.orange-dot {
+    background:
+        #f18038;
+}
+
+.selected {
+    margin-top:
+        15px;
+
+    text-align:
+        center;
+
+    color:
+        #8a718e;
+
+    font-size:
+        11px;
+
+    min-height:
+        16px;
+}
+
+.selected b {
+    color:
+        #632796;
+}
+
+
+/* =========================================================
+   PANELS
+========================================================= */
+
+.control-panel,
+.stats-panel,
+.test-panel,
+.info-panel {
+    margin-top:
+        40px;
+
+    padding:
+        28px;
+
+    border:
+        2px solid
+        rgba(255,213,79,.2);
+
+    border-radius:
+        22px;
+
+    background:
+        rgba(33,14,42,.85);
+}
+
+.panel-title {
+    color:
+        var(--gold);
+
+    font-size:
+        11px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        2px;
+
+    margin-bottom:
+        9px;
+}
+
+.control-panel p,
+.stats-panel p,
+.test-panel p,
+.info-panel p {
+    color:
+        #c0a8c5;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================================
+   SLIDER
+========================================================= */
+
+.probability-control {
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr auto;
+
+    gap:
+        12px;
+
+    align-items:
+        center;
+
+    margin-top:
+        20px;
+}
+
+.probability-control label {
+    color:
+        white;
+
+    font-size:
+        12px;
+}
+
+.probability-control strong {
+    color:
+        var(--gold);
+
+    font-size:
+        24px;
+}
+
+.probability-control input {
+    grid-column:
+        1 / -1;
+
+    width:
+        100%;
+
+    accent-color:
+        #eb4c96;
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.stats-header {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        flex-end;
+
+    margin-bottom:
+        22px;
+}
+
+.rounds {
+    text-align:
+        right;
+}
+
+.rounds strong {
+    display:
+        block;
+
+    font-size:
+        28px;
+}
+
+.rounds span {
+    color:
+        #8c7690;
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        2px;
+}
+
+.stats-grid {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:
+        10px;
+}
+
+.stat {
+    padding:
+        16px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    border-radius:
+        13px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.stat-top {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    margin-bottom:
+        9px;
+}
+
+.stat-name {
+    color:
+        white;
+
+    font-size:
+        10px;
+
+    font-weight:
+        1000;
+}
+
+.stat-percent {
+    color:
+        #d7bfdc;
+
+    font-size:
+        10px;
+}
+
+.bar {
+    height:
+        6px;
+
+    overflow:
+        hidden;
+
+    border-radius:
+        20px;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+.fill {
+    height:
+        100%;
+
+    width:
+        0;
+
+    border-radius:
+        inherit;
+
+    transition:
+        width .35s;
+}
+
+.stat:nth-child(1) .fill {
+    background:#ff416c;
+}
+
+.stat:nth-child(2) .fill {
+    background:#4788ff;
+}
+
+.stat:nth-child(3) .fill {
+    background:#30ca82;
+}
+
+.stat:nth-child(4) .fill {
+    background:#f2cc3c;
+}
+
+.stat:nth-child(5) .fill {
+    background:#a050db;
+}
+
+.stat:nth-child(6) .fill {
+    background:#f18038;
+}
+
+.theory {
+    margin-top:
+        8px;
+
+    color:
+        #817087;
+
+    font-size:
+        8px;
+}
+
+
+/* =========================================================
+   RAPID EXPERIMENT
+========================================================= */
+
+.test-buttons {
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        8px;
+
+    margin-top:
+        20px;
+}
+
+.test-buttons button {
+    padding:
+        11px 15px;
+
+    border:
+        2px solid
+        #734087;
+
+    border-radius:
+        9px;
+
+    background:
+        #31173b;
+
+    color:
+        #f3dff6;
+
+    font-size:
+        9px;
+
+    font-weight:
+        1000;
+
+    cursor:
+        pointer;
+
+    transition:
+        .2s;
+}
+
+.test-buttons button:hover {
+    border-color:
+        var(--gold);
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+.info-grid {
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:
+        10px;
+
+    margin-top:
+        20px;
+}
+
+.info-grid article {
+    position:
+        relative;
+
+    min-height:
+        160px;
+
+    padding:
+        23px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    border-radius:
+        15px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    overflow:
+        hidden;
+}
+
+.info-grid h3 {
+    margin-bottom:
+        9px;
+
+    font-size:
+        14px;
+}
+
+.info-number {
+    position:
+        absolute;
+
+    top:
+        3px;
+
+    right:
+        15px;
+
+    color:
+        rgba(255,213,79,.1);
+
+    font-size:
+        65px;
+
+    font-weight:
+        1000;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding:
+        30px 20px
+        55px;
+
+    text-align:
+        center;
+
+    color:
+        #896f8e;
+
+    font-size:
+        9px;
+
+    letter-spacing:
+        1.5px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:700px) {
+
+    header {
+        padding-top:
+            33px;
+    }
+
+    .subtitle {
+        display:
+            none;
+    }
+
+    .hero {
+        padding-top:
+            55px;
+    }
+
+    .hero h1 {
+        letter-spacing:
+            -2px;
+    }
+
+    .booth-body {
+        padding:
+            18px;
+    }
+
+    .color-buttons {
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .stats-grid,
+    .info-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .boxes {
+        gap:
+            8px;
+    }
+
+    .boxes.separated {
+        gap:
+            25px;
+    }
+
+    .main-buttons {
+        flex-direction:
+            column;
+    }
+
+    .big-button,
+    .small-button {
+        width:
+            100%;
+    }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-    <div class="sky"></div>
 
-    <!-- CARNIVAL LIGHTS -->
-    <div class="marquee top-marquee">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
+<!-- ======================================================
+     CARNIVAL LIGHTS
+====================================================== -->
+
+<div class="marquee top-marquee">
+
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+
+</div>
+
+
+<header>
+
+    <div class="logo">
+        🎪 COLOR <b>CARNIVAL</b>
+    </div>
+
+    <div class="subtitle">
+        PROBABILITY LAB
+    </div>
+
+</header>
+
+
+<main>
+
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <div class="ticket">
+        EDUCATIONAL SIMULATION
+    </div>
+
+    <h1>
+        PICK YOUR COLORS
+        <span>AND SPIN!</span>
+    </h1>
+
+    <p>
+        Choose one or multiple colors, then generate
+        three independent random results.
+    </p>
+
+</section>
+
+
+<!-- ======================================================
+     CARNIVAL MACHINE
+====================================================== -->
+
+<section class="booth">
+
+
+    <div class="booth-roof">
+
+        <div class="roof-stripe red-stripe"></div>
+        <div class="roof-stripe white-stripe"></div>
+        <div class="roof-stripe blue-stripe"></div>
+        <div class="roof-stripe white-stripe"></div>
+        <div class="roof-stripe red-stripe"></div>
+
     </div>
 
 
-    <header>
+    <div class="booth-sign">
+        COLOR CARNIVAL
+    </div>
 
-        <div class="logo">
-            🎪 COLOR <b>CARNIVAL</b>
-        </div>
 
-        <div class="subtitle">
-            PROBABILITY LAB
-        </div>
+    <div class="booth-body">
 
-    </header>
 
+        <!-- STATUS -->
 
-    <main>
+        <div class="status-row">
 
-        <!-- HERO -->
 
-        <section class="hero">
+            <div>
 
-            <div class="ticket">
-                EDUCATIONAL SIMULATION
-            </div>
+                <small>
+                    SIMULATION POINTS
+                </small>
 
-            <h1>
-                PICK A COLOR
-                <span>AND SPIN!</span>
-            </h1>
-
-            <p>
-                Three independent boxes. Six possible colors.
-                Experiment with probability and observe the results.
-            </p>
-
-        </section>
-
-
-        <!-- MACHINE -->
-
-        <section class="booth">
-
-            <div class="booth-roof">
-                <div class="roof-stripe red-stripe"></div>
-                <div class="roof-stripe white-stripe"></div>
-                <div class="roof-stripe blue-stripe"></div>
-                <div class="roof-stripe white-stripe"></div>
-                <div class="roof-stripe red-stripe"></div>
-            </div>
-
-            <div class="booth-sign">
-                COLOR CARNIVAL
-            </div>
-
-
-            <div class="booth-body">
-
-                <!-- STATUS -->
-
-                <div class="status-row">
-
-                    <div>
-                        <small>SIMULATION POINTS</small>
-
-                        <strong id="balance">1000</strong>
-
-                        <em>PTS</em>
-                    </div>
-
-
-                    <div class="mode-area">
-
-                        <small>MODE</small>
-
-                        <button
-                            id="modeButton"
-                            class="mode-button">
-                            FAIR
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- THREE BOXES -->
-
-                <div id="boxArea" class="boxes">
-
-                    <div class="prize-box" id="box1">
-
-                        <div class="box-top">
-                            1
-                        </div>
-
-                        <div class="box-inside">
-                            ?
-                        </div>
-
-                    </div>
-
-
-                    <div class="prize-box" id="box2">
-
-                        <div class="box-top">
-                            2
-                        </div>
-
-                        <div class="box-inside">
-                            ?
-                        </div>
-
-                    </div>
-
-
-                    <div class="prize-box" id="box3">
-
-                        <div class="box-top">
-                            3
-                        </div>
-
-                        <div class="box-inside">
-                            ?
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- RESULT -->
-
-                <div id="result" class="result">
-                    READY TO SPIN!
-                </div>
-
-
-                <!-- MAIN BUTTONS -->
-
-                <div class="main-buttons">
-
-                    <button
-                        id="spinButton"
-                        class="big-button">
-                        🎡 SPIN
-                    </button>
-
-                    <button
-                        id="separateButton"
-                        class="small-button">
-                        ↔ SEPARATE BOXES
-                    </button>
-
-                </div>
-
-
-                <!-- COLOR CHOICES -->
-
-                <div class="choice-area">
-
-                    <div class="choice-title">
-                        PICK YOUR COLOR
-                    </div>
-
-
-                    <div class="color-buttons">
-
-                        <button
-                            class="color-btn"
-                            data-color="red">
-                            <span class="red-dot"></span>
-                            RED
-                        </button>
-
-
-                        <button
-                            class="color-btn"
-                            data-color="blue">
-                            <span class="blue-dot"></span>
-                            BLUE
-                        </button>
-
-
-                        <button
-                            class="color-btn"
-                            data-color="green">
-                            <span class="green-dot"></span>
-                            GREEN
-                        </button>
-
-
-                        <button
-                            class="color-btn"
-                            data-color="yellow">
-                            <span class="yellow-dot"></span>
-                            YELLOW
-                        </button>
-
-
-                        <button
-                            class="color-btn"
-                            data-color="purple">
-                            <span class="purple-dot"></span>
-                            PURPLE
-                        </button>
-
-
-                        <button
-                            class="color-btn"
-                            data-color="orange">
-                            <span class="orange-dot"></span>
-                            ORANGE
-                        </button>
-
-                    </div>
-
-
-                    <div class="selected">
-                        Selected:
-                        <b id="selectedColor">NONE</b>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PROBABILITY CONTROL -->
-
-        <section class="control-panel">
-
-            <div class="panel-title">
-                🎟 PROBABILITY CONTROL
-            </div>
-
-            <p>
-                In bias mode, the selected color can be assigned
-                a different probability for the experiment.
-            </p>
-
-
-            <div class="probability-control">
-
-                <label for="probabilitySlider">
-                    Selected color probability
-                </label>
-
-                <strong>
-                    <span id="probabilityValue">12</span>%
+                <strong id="balance">
+                    1000
                 </strong>
 
-                <input
-                    id="probabilitySlider"
-                    type="range"
-                    min="1"
-                    max="16"
-                    value="12">
+                <em>
+                    PTS
+                </em>
 
             </div>
 
-        </section>
+
+            <div class="mode-area">
+
+                <small>
+                    MODE
+                </small>
+
+                <button
+                    type="button"
+                    id="modeButton"
+                    class="mode-button">
+
+                    FAIR
+
+                </button>
+
+            </div>
 
 
-        <!-- STATISTICS -->
+        </div>
 
-        <section class="stats-panel">
 
-            <div class="stats-header">
+        <!-- THREE BOXES -->
 
-                <div>
-                    <div class="panel-title">
-                        📊 LIVE RESULTS
-                    </div>
+        <div
+            id="boxArea"
+            class="boxes">
 
-                    <p>
-                        Results from every box are recorded here.
-                    </p>
+
+            <div
+                id="box1"
+                class="prize-box">
+
+                <div class="box-top">
+                    1
                 </div>
 
-
-                <div class="rounds">
-
-                    <strong id="rounds">0</strong>
-
-                    <span>ROUNDS</span>
-
+                <div class="box-inside">
+                    ?
                 </div>
 
             </div>
 
 
-            <div id="statsGrid" class="stats-grid"></div>
+            <div
+                id="box2"
+                class="prize-box">
 
-        </section>
+                <div class="box-top">
+                    2
+                </div>
 
-
-        <!-- RAPID TEST -->
-
-        <section class="test-panel">
-
-            <div class="panel-title">
-                🎟 RAPID EXPERIMENT
-            </div>
-
-            <p>
-                Run large numbers of simulated rounds instantly.
-            </p>
-
-
-            <div class="test-buttons">
-
-                <button id="run100">
-                    +100 ROUNDS
-                </button>
-
-                <button id="run1000">
-                    +1,000 ROUNDS
-                </button>
-
-                <button id="run10000">
-                    +10,000 ROUNDS
-                </button>
-
-                <button id="reset">
-                    RESET
-                </button>
+                <div class="box-inside">
+                    ?
+                </div>
 
             </div>
 
-        </section>
 
+            <div
+                id="box3"
+                class="prize-box">
 
-        <!-- INFORMATION -->
+                <div class="box-top">
+                    3
+                </div>
 
-        <section class="info-panel">
-
-            <div class="panel-title">
-                🎪 HOW IT WORKS
-            </div>
-
-
-            <div class="info-grid">
-
-                <article>
-
-                    <div class="info-number">1</div>
-
-                    <h3>Six colors</h3>
-
-                    <p>
-                        In FAIR mode, every color has a
-                        1/6 probability, approximately
-                        16.67%, in each box.
-                    </p>
-
-                </article>
-
-
-                <article>
-
-                    <div class="info-number">2</div>
-
-                    <h3>Three boxes</h3>
-
-                    <p>
-                        Every round generates three independent
-                        results.
-                    </p>
-
-                </article>
-
-
-                <article>
-
-                    <div class="info-number">3</div>
-
-                    <h3>Large samples</h3>
-
-                    <p>
-                        Running thousands of rounds makes
-                        the underlying probability easier to observe.
-                    </p>
-
-                </article>
-
-
-                <article>
-
-                    <div class="info-number">4</div>
-
-                    <h3>Bias experiment</h3>
-
-                    <p>
-                        Bias mode changes the probability of the
-                        selected color for educational comparison.
-                    </p>
-
-                </article>
+                <div class="box-inside">
+                    ?
+                </div>
 
             </div>
 
-        </section>
 
-    </main>
-
-
-    <footer>
-        🎪 COLOR CARNIVAL • PROBABILITY EDUCATION PROJECT
-    </footer>
+        </div>
 
 
-    <div class="marquee bottom-marquee">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-    </div>
+        <!-- RESULT -->
+
+        <div
+            id="result"
+            class="result">
+
+            READY TO SPIN!
+
+        </div>
 
 
-    <script src="script.js"></script>
+        <!-- BUTTONS -->
 
-</body>
-</html>
+        <div class="main-buttons">
+
+
+            <button
+                type="button"
+                id="spinButton"
+                class="big-button">
+
+                🎡 SPIN
+
+            </button>
+
+
+            <button
+                type="button"
+                id="separateButton"
+                class="smal
 
