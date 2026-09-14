@@ -1,563 +1,540 @@
 "use strict";
 
-/* =========================================================
-   COLOR CARNIVAL
-   Educational probability experiment
-========================================================= */
+document.addEventListener("DOMContentLoaded", function () {
 
-const COLORS = [
-    "red",
-    "blue",
-    "green",
-    "yellow",
-    "purple",
-    "orange"
-];
+    /* ==============================
+       COLORS
+    ============================== */
 
-const NAMES = {
-    red: "RED",
-    blue: "BLUE",
-    green: "GREEN",
-    yellow: "YELLOW",
-    purple: "PURPLE",
-    orange: "ORANGE"
-};
+    const COLORS = [
+        "red",
+        "blue",
+        "green",
+        "yellow",
+        "purple",
+        "orange"
+    ];
 
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let selectedColors = [];
-let biasedMode = false;
-let spinning = false;
-
-let rounds = 0;
-let balance = 1000;
-
-const counts = {
-    red: 0,
-    blue: 0,
-    green: 0,
-    yellow: 0,
-    purple: 0,
-    orange: 0
-};
+    const NAMES = {
+        red: "RED",
+        blue: "BLUE",
+        green: "GREEN",
+        yellow: "YELLOW",
+        purple: "PURPLE",
+        orange: "ORANGE"
+    };
 
 
-/* =========================================================
-   DOM
-========================================================= */
+    /* ==============================
+       VARIABLES
+    ============================== */
 
-const boxes = [
-    document.getElementById("box1"),
-    document.getElementById("box2"),
-    document.getElementById("box3")
-];
+    let selectedColors = [];
+    let spinning = false;
+    let biasedMode = false;
 
-const boxArea =
-    document.getElementById("boxArea");
+    let rounds = 0;
+    let balance = 1000;
 
-const spinButton =
-    document.getElementById("spinButton");
-
-const separateButton =
-    document.getElementById("separateButton");
-
-const modeButton =
-    document.getElementById("modeButton");
-
-const result =
-    document.getElementById("result");
-
-const balanceElement =
-    document.getElementById("balance");
-
-const roundsElement =
-    document.getElementById("rounds");
-
-const selectedColorElement =
-    document.getElementById("selectedColor");
-
-const slider =
-    document.getElementById("probabilitySlider");
-
-const probabilityValue =
-    document.getElementById("probabilityValue");
-
-const statsGrid =
-    document.getElementById("statsGrid");
+    const counts = {
+        red: 0,
+        blue: 0,
+        green: 0,
+        yellow: 0,
+        purple: 0,
+        orange: 0
+    };
 
 
-/* =========================================================
-   CREATE STATISTICS
-========================================================= */
+    /* ==============================
+       GET ELEMENTS
+    ============================== */
 
-function createStats() {
+    const boxArea = document.getElementById("boxArea");
 
-    statsGrid.innerHTML = "";
+    const boxes = [
+        document.getElementById("box1"),
+        document.getElementById("box2"),
+        document.getElementById("box3")
+    ];
 
-    COLORS.forEach(color => {
+    const spinButton = document.getElementById("spinButton");
+    const separateButton = document.getElementById("separateButton");
+    const modeButton = document.getElementById("modeButton");
 
-        const card =
-            document.createElement("div");
+    const result = document.getElementById("result");
+    const balanceElement = document.getElementById("balance");
+    const roundsElement = document.getElementById("rounds");
 
-        card.className = "stat";
+    const selectedColorElement =
+        document.getElementById("selectedColor");
 
-        card.innerHTML = `
-            <div class="stat-top">
-                <span class="stat-name">
-                    ${NAMES[color]}
-                </span>
+    const slider =
+        document.getElementById("probabilitySlider");
 
-                <span
-                    class="stat-percent"
-                    id="${color}Percent">
-                    0.00%
-                </span>
-            </div>
+    const probabilityValue =
+        document.getElementById("probabilityValue");
 
-            <div class="bar">
-                <div
-                    class="fill"
-                    id="${color}Fill">
-                </div>
-            </div>
-
-            <div
-                class="theory"
-                id="${color}Theory">
-                Theoretical: 16.67%
-            </div>
-        `;
-
-        statsGrid.appendChild(card);
-    });
-}
+    const statsGrid =
+        document.getElementById("statsGrid");
 
 
-/* =========================================================
-   PROBABILITY
-========================================================= */
-
-function getProbabilities() {
-
-    /* FAIR MODE */
+    /* ==============================
+       CHECK HTML
+    ============================== */
 
     if (
-        !biasedMode ||
-        selectedColors.length === 0
+        !boxArea ||
+        boxes.includes(null) ||
+        !spinButton ||
+        !separateButton ||
+        !modeButton ||
+        !result ||
+        !balanceElement ||
+        !roundsElement ||
+        !selectedColorElement ||
+        !slider ||
+        !probabilityValue ||
+        !statsGrid
     ) {
 
+        console.error(
+            "Color Carnival: One or more HTML elements are missing."
+        );
+
+        return;
+    }
+
+
+    /* ==============================
+       STATISTICS
+    ============================== */
+
+    function createStats() {
+
+        statsGrid.innerHTML = "";
+
+        COLORS.forEach(function (color) {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "stat";
+
+            card.innerHTML = `
+                <div class="stat-top">
+                    <span class="stat-name">
+                        ${NAMES[color]}
+                    </span>
+
+                    <span
+                        class="stat-percent"
+                        id="${color}Percent">
+                        0.00%
+                    </span>
+                </div>
+
+                <div class="bar">
+                    <div
+                        class="fill"
+                        id="${color}Fill">
+                    </div>
+                </div>
+
+                <div
+                    class="theory"
+                    id="${color}Theory">
+                    Theoretical: 16.67%
+                </div>
+            `;
+
+            statsGrid.appendChild(card);
+        });
+    }
+
+
+    /* ==============================
+       PROBABILITY
+    ============================== */
+
+    function getProbabilities() {
+
+        /* FAIR */
+
+        if (
+            !biasedMode ||
+            selectedColors.length === 0
+        ) {
+
+            return {
+                red: 1 / 6,
+                blue: 1 / 6,
+                green: 1 / 6,
+                yellow: 1 / 6,
+                purple: 1 / 6,
+                orange: 1 / 6
+            };
+        }
+
+
+        /* EDUCATIONAL BIAS */
+
+        const target =
+            selectedColors[0];
+
+        const targetProbability =
+            Number(slider.value) / 100;
+
+        const otherProbability =
+            (1 - targetProbability) / 5;
+
         return {
-            red: 1 / 6,
-            blue: 1 / 6,
-            green: 1 / 6,
-            yellow: 1 / 6,
-            purple: 1 / 6,
-            orange: 1 / 6
+
+            red:
+                target === "red"
+                    ? targetProbability
+                    : otherProbability,
+
+            blue:
+                target === "blue"
+                    ? targetProbability
+                    : otherProbability,
+
+            green:
+                target === "green"
+                    ? targetProbability
+                    : otherProbability,
+
+            yellow:
+                target === "yellow"
+                    ? targetProbability
+                    : otherProbability,
+
+            purple:
+                target === "purple"
+                    ? targetProbability
+                    : otherProbability,
+
+            orange:
+                target === "orange"
+                    ? targetProbability
+                    : otherProbability
         };
     }
 
 
-    /*
-        BIAS MODE
+    /* ==============================
+       RANDOM COLOR
+    ============================== */
 
-        The first selected color is the
-        target used for the experiment.
+    function randomColor() {
 
-        The slider controls its probability.
-    */
+        const probabilities =
+            getProbabilities();
 
-    const target =
-        selectedColors[0];
+        const random =
+            Math.random();
 
-    const targetProbability =
-        Number(slider.value) / 100;
+        let cumulative = 0;
 
-    const otherProbability =
-        (1 - targetProbability) / 5;
+        for (const color of COLORS) {
 
-    const probabilities = {};
+            cumulative +=
+                probabilities[color];
 
-    COLORS.forEach(color => {
-
-        if (color === target) {
-            probabilities[color] =
-                targetProbability;
-        } else {
-            probabilities[color] =
-                otherProbability;
+            if (random < cumulative) {
+                return color;
+            }
         }
 
-    });
-
-    return probabilities;
-}
+        return "orange";
+    }
 
 
-/* =========================================================
-   RANDOM COLOR
-========================================================= */
+    /* ==============================
+       BOX COLOR
+    ============================== */
 
-function randomColor() {
+    const visualColors = {
 
-    const probabilities =
-        getProbabilities();
+        red: {
+            background:
+                "#df315d",
 
-    const random =
-        Math.random();
+            shadow:
+                "0 0 30px rgba(223,49,93,.55)"
+        },
 
-    let cumulative = 0;
+        blue: {
+            background:
+                "#4083ed",
 
-    for (const color of COLORS) {
+            shadow:
+                "0 0 30px rgba(64,131,237,.55)"
+        },
 
-        cumulative +=
-            probabilities[color];
+        green: {
+            background:
+                "#30c880",
 
-        if (random < cumulative) {
-            return color;
+            shadow:
+                "0 0 30px rgba(48,200,128,.55)"
+        },
+
+        yellow: {
+            background:
+                "#e9bd2e",
+
+            shadow:
+                "0 0 30px rgba(243,201,54,.55)"
+        },
+
+        purple: {
+            background:
+                "#a051d7",
+
+            shadow:
+                "0 0 30px rgba(160,81,215,.55)"
+        },
+
+        orange: {
+            background:
+                "#f18038",
+
+            shadow:
+                "0 0 30px rgba(241,128,56,.55)"
         }
-    }
-
-    return COLORS[
-        COLORS.length - 1
-    ];
-}
+    };
 
 
-/* =========================================================
-   COLOR VISUALS
-========================================================= */
+    /* ==============================
+       RESET BOX
+    ============================== */
 
-const boxStyles = {
+    function resetBox(box) {
 
-    red: {
-        background:
-            "radial-gradient(circle at 35% 30%, #ff91a9, #df315d 60%, #7d1735)",
+        const number =
+            box.id.replace("box", "");
 
-        shadow:
-            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(223,49,93,.35)"
-    },
+        box.classList.remove("spinning");
 
-    blue: {
-        background:
-            "radial-gradient(circle at 35% 30%, #93bdff, #4083ed 60%, #174c98)",
+        box.style.background =
+            "linear-gradient(145deg,#9865bc,#51256e)";
 
-        shadow:
-            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(64,131,237,.35)"
-    },
+        box.style.boxShadow =
+            "inset 0 5px 0 rgba(255,255,255,.2), 0 10px 0 #311637, 0 20px 30px rgba(0,0,0,.3)";
 
-    green: {
-        background:
-            "radial-gradient(circle at 35% 30%, #91efbd, #30c880 60%, #147143)",
+        box.innerHTML = `
+            <div class="box-top">
+                ${number}
+            </div>
 
-        shadow:
-            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(48,200,128,.35)"
-    },
-
-    yellow: {
-        background:
-            "radial-gradient(circle at 35% 30%, #fff09a, #f3c936 60%, #aa7900)",
-
-        shadow:
-            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(243,201,54,.35)"
-    },
-
-    purple: {
-        background:
-            "radial-gradient(circle at 35% 30%, #dbadff, #a051d7 60%, #5d237d)",
-
-        shadow:
-            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(160,81,215,.35)"
-    },
-
-    orange: {
-        background:
-            "radial-gradient(circle at 35% 30%, #ffc08e, #f18038 60%, #a8400c)",
-
-        shadow:
-            "inset 0 5px rgba(255,255,255,.2), 0 15px 35px rgba(241,128,56,.35)"
-    }
-};
-
-
-/* =========================================================
-   DISPLAY BOX
-========================================================= */
-
-function showBox(box, color) {
-
-    const style =
-        boxStyles[color];
-
-    box.style.background =
-        style.background;
-
-    box.style.boxShadow =
-        style.shadow;
-
-    const number =
-        box.id.replace("box", "");
-
-    box.innerHTML = `
-        <div class="box-top">
-            ${number}
-        </div>
-
-        <div class="box-inside">
-            ${NAMES[color][0]}
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   RESET BOX
-========================================================= */
-
-function resetBox(box) {
-
-    box.style.background =
-        "linear-gradient(145deg,#9865bc,#51256e)";
-
-    /* Fixed: one-line JavaScript string */
-
-    box.style.boxShadow =
-        "inset 0 5px 0 rgba(255,255,255,.2), 0 10px 0 #311637, 0 20px 30px rgba(0,0,0,.3)";
-
-    const number =
-        box.id.replace("box", "");
-
-    box.innerHTML = `
-        <div class="box-top">
-            ${number}
-        </div>
-
-        <div class="box-inside">
-            ?
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   SPIN
-========================================================= */
-
-async function spin() {
-
-    if (spinning) {
-        return;
-    }
-
-    spinning = true;
-
-    spinButton.disabled = true;
-
-    result.className =
-        "result";
-
-    result.textContent =
-        "SPINNING...";
-
-
-    /* Start animation */
-
-    boxes.forEach(box => {
-
-        resetBox(box);
-
-        box.classList.add(
-            "spinning"
-        );
-
-    });
-
-
-    /* Generate three results */
-
-    const results = [
-        randomColor(),
-        randomColor(),
-        randomColor()
-    ];
-
-
-    /* Wait */
-
-    await delay(900);
-
-
-    /* Reveal each box */
-
-    for (
-        let i = 0;
-        i < boxes.length;
-        i++
-    ) {
-
-        boxes[i].classList.remove(
-            "spinning"
-        );
-
-        showBox(
-            boxes[i],
-            results[i]
-        );
-
-        await delay(220);
+            <div class="box-inside">
+                ?
+            </div>
+        `;
     }
 
 
-    processResults(results);
+    /* ==============================
+       SHOW RESULT
+    ============================== */
+
+    function showBox(box, color) {
+
+        const number =
+            box.id.replace("box", "");
+
+        box.classList.remove("spinning");
+
+        box.style.background =
+            visualColors[color].background;
+
+        box.style.boxShadow =
+            visualColors[color].shadow;
+
+        box.innerHTML = `
+            <div class="box-top">
+                ${number}
+            </div>
+
+            <div class="box-inside">
+                ${NAMES[color][0]}
+            </div>
+        `;
+    }
 
 
-    spinning = false;
+    /* ==============================
+       SPIN
+    ============================== */
 
-    spinButton.disabled = false;
-}
+    async function spin() {
 
+        if (spinning) {
+            return;
+        }
 
-/* =========================================================
-   PROCESS RESULTS
-========================================================= */
+        spinning = true;
 
-function processResults(results) {
+        spinButton.disabled = true;
 
-    rounds++;
+        result.className = "result";
 
-    roundsElement.textContent =
-        rounds.toLocaleString();
-
-
-    /* Count all three results */
-
-    results.forEach(color => {
-
-        counts[color]++;
-
-    });
+        result.textContent =
+            "SPINNING...";
 
 
-    /*
-        Multiple color selection.
+        /* Start animation */
 
-        Example:
+        boxes.forEach(function (box) {
 
-        selectedColors =
-        ["red", "blue", "purple"]
+            resetBox(box);
 
-        results =
-        ["red", "green", "blue"]
+            box.classList.add("spinning");
 
-        matched =
-        ["red", "blue"]
-    */
+        });
 
-    if (
-        selectedColors.length > 0
-    ) {
 
-        const matches =
-            results.filter(
-                color =>
-                    selectedColors.includes(color)
+        /* Generate results */
+
+        const results = [
+            randomColor(),
+            randomColor(),
+            randomColor()
+        ];
+
+
+        /* Animation duration */
+
+        await wait(1000);
+
+
+        /* Reveal */
+
+        for (let i = 0; i < 3; i++) {
+
+            showBox(
+                boxes[i],
+                results[i]
             );
 
+            await wait(200);
+        }
+
+
+        /* Count */
+
+        results.forEach(function (color) {
+
+            counts[color]++;
+
+        });
+
+
+        rounds++;
+
+
+        /* Selected color matching */
 
         if (
-            matches.length > 0
+            selectedColors.length > 0
         ) {
 
-            const uniqueMatches =
-                [...new Set(matches)];
+            const matches =
+                results.filter(function (color) {
+
+                    return selectedColors.includes(color);
+
+                });
 
 
-            const names =
-                uniqueMatches
-                    .map(
-                        color =>
-                            NAMES[color]
-                    )
+            if (matches.length > 0) {
+
+                const names =
+                    [
+                        ...new Set(matches)
+                    ]
+                    .map(function (color) {
+                        return NAMES[color];
+                    })
                     .join(" + ");
 
 
-            result.className =
-                "result win";
+                result.className =
+                    "result win";
+
+                result.textContent =
+                    names + " APPEARED!";
 
 
-            result.textContent =
-                `${names} APPEARED!`;
+                balance +=
+                    matches.length * 10;
+
+            } else {
+
+                result.className =
+                    "result loss";
+
+                result.textContent =
+                    "NONE OF YOUR SELECTED COLORS APPEARED";
 
 
-            /*
-                Fictional simulation points only.
-            */
-
-            balance +=
-                matches.length * 10;
+                balance -= 5;
+            }
 
         } else {
 
-            balance -= 5;
-
-
-            result.className =
-                "result loss";
-
-
             result.textContent =
-                "NONE OF YOUR SELECTED COLORS APPEARED";
-
+                results
+                    .map(function (color) {
+                        return NAMES[color];
+                    })
+                    .join(" • ");
         }
 
-    } else {
 
-        result.textContent =
-            results
-                .map(
-                    color =>
-                        NAMES[color]
-                )
-                .join(" • ");
+        /* Update */
+
+        balanceElement.textContent =
+            balance.toLocaleString();
+
+        roundsElement.textContent =
+            rounds.toLocaleString();
+
+
+        updateStats();
+
+
+        spinning = false;
+
+        spinButton.disabled = false;
     }
 
 
-    balanceElement.textContent =
-        balance.toLocaleString();
+    /* ==============================
+       MULTIPLE COLOR SELECTION
+    ============================== */
+
+    const colorButtons =
+        document.querySelectorAll(".color-btn");
 
 
-    updateStats();
-}
-
-
-/* =========================================================
-   MULTIPLE COLOR SELECTION
-========================================================= */
-
-document
-    .querySelectorAll(".color-btn")
-    .forEach(button => {
+    colorButtons.forEach(function (button) {
 
         button.addEventListener(
             "click",
             function () {
 
                 const color =
-                    this.dataset.color;
+                    button.dataset.color;
 
 
                 const index =
-                    selectedColors.indexOf(
-                        color
-                    );
+                    selectedColors.indexOf(color);
 
 
-                /*
-                    Already selected:
-                    remove it.
-                */
+                /* Remove */
 
                 if (index !== -1) {
 
@@ -566,17 +543,13 @@ document
                         1
                     );
 
-                    this.classList.remove(
+                    button.classList.remove(
                         "active"
                     );
 
                 }
 
-
-                /*
-                    Not selected:
-                    add it.
-                */
+                /* Add */
 
                 else {
 
@@ -584,15 +557,13 @@ document
                         color
                     );
 
-                    this.classList.add(
+                    button.classList.add(
                         "active"
                     );
                 }
 
 
-                /*
-                    Update display.
-                */
+                /* Display */
 
                 if (
                     selectedColors.length === 0
@@ -605,385 +576,370 @@ document
 
                     selectedColorElement.textContent =
                         selectedColors
-                            .map(
-                                color =>
-                                    NAMES[color]
-                            )
+                            .map(function (item) {
+                                return NAMES[item];
+                            })
                             .join(", ");
                 }
 
 
                 updateStats();
-
             }
         );
-
     });
 
 
-/* =========================================================
-   FAIR / BIAS
-========================================================= */
+    /* ==============================
+       FAIR / BIAS
+    ============================== */
 
-modeButton.addEventListener(
-    "click",
-    function () {
+    modeButton.addEventListener(
+        "click",
+        function () {
 
-        biasedMode =
-            !biasedMode;
+            biasedMode =
+                !biasedMode;
 
 
-        if (biasedMode) {
+            if (biasedMode) {
 
-            this.textContent =
-                "SELECTED COLOR BIAS";
+                modeButton.textContent =
+                    "SELECTED COLOR BIAS";
 
-            this.classList.add(
-                "bias"
-            );
+                modeButton.classList.add(
+                    "bias"
+                );
 
-            result.textContent =
-                "BIAS MODE ENABLED";
+                result.textContent =
+                    "BIAS MODE ENABLED";
 
-        } else {
+            } else {
 
-            this.textContent =
-                "FAIR";
+                modeButton.textContent =
+                    "FAIR";
 
-            this.classList.remove(
-                "bias"
-            );
+                modeButton.classList.remove(
+                    "bias"
+                );
 
-            result.textContent =
-                "FAIR MODE ENABLED";
+                result.textContent =
+                    "FAIR MODE ENABLED";
+            }
+
+
+            updateStats();
         }
+    );
 
 
-        updateStats();
+    /* ==============================
+       SLIDER
+    ============================== */
 
-    }
-);
+    slider.addEventListener(
+        "input",
+        function () {
 
+            probabilityValue.textContent =
+                slider.value;
 
-/* =========================================================
-   SLIDER
-========================================================= */
-
-slider.addEventListener(
-    "input",
-    function () {
-
-        probabilityValue.textContent =
-            this.value;
-
-        updateStats();
-
-    }
-);
+            updateStats();
+        }
+    );
 
 
-/* =========================================================
-   SEPARATE BOXES
-========================================================= */
+    /* ==============================
+       SEPARATE BOXES
+    ============================== */
 
-separateButton.addEventListener(
-    "click",
-    function () {
+    separateButton.addEventListener(
+        "click",
+        function () {
 
-        boxArea.classList.toggle(
-            "separated"
-        );
-
-
-        if (
-            boxArea.classList.contains(
+            boxArea.classList.toggle(
                 "separated"
-            )
+            );
+
+
+            if (
+                boxArea.classList.contains(
+                    "separated"
+                )
+            ) {
+
+                separateButton.textContent =
+                    "↔ JOIN BOXES";
+
+            } else {
+
+                separateButton.textContent =
+                    "↔ SEPARATE BOXES";
+            }
+        }
+    );
+
+
+    /* ==============================
+       RAPID SIMULATION
+    ============================== */
+
+    function runRounds(amount) {
+
+        for (
+            let i = 0;
+            i < amount;
+            i++
         ) {
 
-            this.textContent =
-                "↔ JOIN BOXES";
-
-        } else {
-
-            this.textContent =
-                "↔ SEPARATE BOXES";
+            counts[randomColor()]++;
+            counts[randomColor()]++;
+            counts[randomColor()]++;
         }
 
+
+        rounds += amount;
+
+
+        roundsElement.textContent =
+            rounds.toLocaleString();
+
+
+        result.className =
+            "result";
+
+        result.textContent =
+            amount.toLocaleString() +
+            " ROUNDS SIMULATED";
+
+
+        updateStats();
     }
-);
-
-
-/* =========================================================
-   UPDATE STATISTICS
-========================================================= */
-
-function updateStats() {
-
-    const totalResults =
-        rounds * 3;
-
-    const probabilities =
-        getProbabilities();
-
-
-    COLORS.forEach(color => {
-
-        let actual = 0;
-
-
-        if (totalResults > 0) {
-
-            actual =
-                (
-                    counts[color] /
-                    totalResults
-                ) * 100;
-        }
-
-
-        const percent =
-            document.getElementById(
-                `${color}Percent`
-            );
-
-        const fill =
-            document.getElementById(
-                `${color}Fill`
-            );
-
-        const theory =
-            document.getElementById(
-                `${color}Theory`
-            );
-
-
-        if (percent) {
-
-            percent.textContent =
-                `${actual.toFixed(2)}%`;
-        }
-
-
-        if (fill) {
-
-            fill.style.width =
-                `${Math.min(actual, 100)}%`;
-        }
-
-
-        if (theory) {
-
-            theory.textContent =
-                `Theoretical: ${(probabilities[color] * 100).toFixed(2)}%`;
-        }
-
-    });
-}
-
-
-/* =========================================================
-   RAPID SIMULATION
-========================================================= */
-
-function runRounds(amount) {
-
-    for (
-        let i = 0;
-        i < amount;
-        i++
-    ) {
-
-        counts[randomColor()]++;
-        counts[randomColor()]++;
-        counts[randomColor()]++;
-
-    }
-
-
-    rounds += amount;
-
-
-    roundsElement.textContent =
-        rounds.toLocaleString();
-
-
-    result.className =
-        "result";
-
-
-    result.textContent =
-        `${amount.toLocaleString()} ROUNDS SIMULATED`;
-
-
-    updateStats();
-}
-
-
-/* =========================================================
-   RAPID BUTTONS
-========================================================= */
-
-document
-    .getElementById("run100")
-    .addEventListener(
-        "click",
-        function () {
-
-            runRounds(100);
-
-        }
-    );
-
-
-document
-    .getElementById("run1000")
-    .addEventListener(
-        "click",
-        function () {
-
-            runRounds(1000);
-
-        }
-    );
-
-
-document
-    .getElementById("run10000")
-    .addEventListener(
-        "click",
-        function () {
-
-            runRounds(10000);
-
-        }
-    );
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-document
-    .getElementById("reset")
-    .addEventListener(
-        "click",
-        resetSimulation
-    );
-
-
-function resetSimulation() {
-
-    rounds = 0;
-
-    balance = 1000;
-
-    selectedColors = [];
-
-    biasedMode = false;
-
-
-    COLORS.forEach(color => {
-
-        counts[color] = 0;
-
-    });
 
 
     document
-        .querySelectorAll(".color-btn")
-        .forEach(button => {
-
-            button.classList.remove(
-                "active"
-            );
-
-        });
-
-
-    selectedColorElement.textContent =
-        "NONE";
-
-
-    modeButton.textContent =
-        "FAIR";
-
-
-    modeButton.classList.remove(
-        "bias"
-    );
-
-
-    balanceElement.textContent =
-        "1000";
-
-
-    roundsElement.textContent =
-        "0";
-
-
-    probabilityValue.textContent =
-        slider.value;
-
-
-    result.className =
-        "result";
-
-
-    result.textContent =
-        "READY TO SPIN!";
-
-
-    boxArea.classList.remove(
-        "separated"
-    );
-
-
-    separateButton.textContent =
-        "↔ SEPARATE BOXES";
-
-
-    boxes.forEach(box => {
-
-        box.classList.remove(
-            "spinning"
+        .getElementById("run100")
+        .addEventListener(
+            "click",
+            function () {
+                runRounds(100);
+            }
         );
 
-        resetBox(box);
 
+    document
+        .getElementById("run1000")
+        .addEventListener(
+            "click",
+            function () {
+                runRounds(1000);
+            }
+        );
+
+
+    document
+        .getElementById("run10000")
+        .addEventListener(
+            "click",
+            function () {
+                runRounds(10000);
+            }
+        );
+
+
+    /* ==============================
+       STATISTICS
+    ============================== */
+
+    function updateStats() {
+
+        const totalResults =
+            rounds * 3;
+
+        const probabilities =
+            getProbabilities();
+
+
+        COLORS.forEach(function (color) {
+
+            let actual = 0;
+
+
+            if (totalResults > 0) {
+
+                actual =
+                    (
+                        counts[color] /
+                        totalResults
+                    ) * 100;
+            }
+
+
+            const percent =
+                document.getElementById(
+                    color + "Percent"
+                );
+
+            const fill =
+                document.getElementById(
+                    color + "Fill"
+                );
+
+            const theory =
+                document.getElementById(
+                    color + "Theory"
+                );
+
+
+            if (percent) {
+
+                percent.textContent =
+                    actual.toFixed(2) + "%";
+            }
+
+
+            if (fill) {
+
+                fill.style.width =
+                    Math.min(actual, 100) + "%";
+            }
+
+
+            if (theory) {
+
+                theory.textContent =
+                    "Theoretical: " +
+                    (
+                        probabilities[color] * 100
+                    ).toFixed(2) +
+                    "%";
+            }
+
+        });
+    }
+
+
+    /* ==============================
+       RESET
+    ============================== */
+
+    document
+        .getElementById("reset")
+        .addEventListener(
+            "click",
+            function () {
+
+                rounds = 0;
+
+                balance = 1000;
+
+                selectedColors = [];
+
+                biasedMode = false;
+
+
+                COLORS.forEach(function (color) {
+
+                    counts[color] = 0;
+
+                });
+
+
+                colorButtons.forEach(
+                    function (button) {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                selectedColorElement.textContent =
+                    "NONE";
+
+
+                modeButton.textContent =
+                    "FAIR";
+
+                modeButton.classList.remove(
+                    "bias"
+                );
+
+
+                balanceElement.textContent =
+                    "1000";
+
+
+                roundsElement.textContent =
+                    "0";
+
+
+                probabilityValue.textContent =
+                    slider.value;
+
+
+                result.className =
+                    "result";
+
+
+                result.textContent =
+                    "READY TO SPIN!";
+
+
+                boxArea.classList.remove(
+                    "separated"
+                );
+
+
+                separateButton.textContent =
+                    "↔ SEPARATE BOXES";
+
+
+                boxes.forEach(
+                    function (box) {
+
+                        resetBox(box);
+
+                    }
+                );
+
+
+                updateStats();
+            }
+        );
+
+
+    /* ==============================
+       DELAY
+    ============================== */
+
+    function wait(ms) {
+
+        return new Promise(
+            function (resolve) {
+
+                setTimeout(
+                    resolve,
+                    ms
+                );
+
+            }
+        );
+    }
+
+
+    /* ==============================
+       INITIALIZE
+    ============================== */
+
+    createStats();
+
+    boxes.forEach(function (box) {
+        resetBox(box);
     });
 
-
     updateStats();
-}
 
-
-/* =========================================================
-   DELAY
-========================================================= */
-
-function delay(ms) {
-
-    return new Promise(
-        resolve =>
-            setTimeout(
-                resolve,
-                ms
-            )
-    );
-}
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-createStats();
-
-boxes.forEach(
-    box =>
-        resetBox(box)
-);
-
-updateStats();
+});
 
